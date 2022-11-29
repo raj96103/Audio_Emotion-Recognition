@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Emotion Recognition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}" />
+
+	<!-- Latest compiled and minified Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}" /> -->
+    <!-- <link rel="stylesheet" href="styles/index.css" /> -->
+
+
+</head>
+<body>
+    <nav class="nav">
+        <div class="container">
+            <div class="logo">
+                <a href="#">Sound Emotion Recogniser</a>
+            </div>
+            <div id="mainListDiv" class="main_list">
+                <ul class="navlinks">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#">Find Mood</a></li>
+                    <li><a href="#">Download Recording</a></li>
+                    <li><a href="#">Buy me a coffee</a></li>
+                </ul>
+            </div>
+            <span class="navTrigger">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        </div>
+    </nav>
+
+    <section id="about">
+        <h1>Find your emotion</h1>
+        <h3>Highly robust, seemingly fast modal that correctly</h3>
+        <h3>predicts your mood with an accuracy of 88%.</h3>
+        <svg class="arrows">
+            <path class="a1" d="M0 0 L30 32 L60 0"></path>
+            <path class="a2" d="M0 20 L30 52 L60 20"></path>
+            <path class="a3" d="M0 40 L30 72 L60 40"></path>
+        </svg>
+    </section>
+
+
+    <div id="speechContainer">
+        <br>
+        <h3>1 - Upload your .wav file  and Get Emotions</h3> 
+
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="file"/>
+            <input type="submit" id="submitButton" value="See Results"/>
+
+            <br>
+
+            <br>
+            <h3>2 - Record and Get Emotions</h3> 
+            <input type="submit" id="submitButton" value="Record 10 sec clip"/>
+        </form>
+
+        {% if transcript != "" %}
+       
+            <div id="speechTranscriptContainer">
+                <h1>Results</h1>
+                <p id="speechText">{{ transcript }}</p>
+                <br>
+                <br>
+
+                <p>
+                    <a href="{{ url_for('.download_file') }}">Download your Recording</a>
+                </p>
+            </div>
+        {% endif %}
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
+    <script src="{{ url_for('static', filename='js/WebAudioRecorder.min.js') }}" ></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}" ></script>
+
+
+
+
+
+
+</body>
+</html>

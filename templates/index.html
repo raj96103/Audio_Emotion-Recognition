@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sound Emotion Recognition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/index.css') }}" />
+    <!-- <link rel="stylesheet" href="styles/index.css" /> -->
+
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+</head>
+
+
+
+
+<body>
+    <nav class="nav">
+        <div class="container">
+            <div class="logo">
+                <a href="#">Sound Emotion Recogniser</a>
+            </div>
+            <div id="mainListDiv" class="main_list">
+                <ul class="navlinks">
+                    <li><a href="#about">Home</a></li>
+                    <li><a href="#findMood">Find Mood</a></li>
+                    <li><a href="https://www.buymeacoffee.com/">Buy me a coffee</a></li>
+                </ul>
+            </div>
+            <span class="navTrigger">
+                <i></i>
+                <i></i>
+                <i></i>
+            </span>
+        </div>
+    </nav>
+
+    <!-- About Section -->
+    <section id="about">
+        <h1>Find your emotion</h1>
+        <h3>Highly robust, seemingly fast modal that correctly</h3>
+        <h3>predicts your mood with an accuracy of 88%.</h3>
+        <svg class="arrows" onClick="window.location='#findMood'">
+            <path class="a1" d="M0 0 L30 32 L60 0"></path>
+            <path class="a2" d="M0 20 L30 52 L60 20"></path>
+            <path class="a3" d="M0 40 L30 72 L60 40"></path>
+        </svg>
+     
+        {% if transcript != "" %}
+
+        <div id="speechTranscriptContainer">
+            <!-- <h3>Results</h3> -->
+            <br/>
+            <h1 id="speechText" style="color: white;">{{ transcript }}</h1>
+            <img src="/static/images/{{ transcript }}.png" alt="{{ transcript }}">
+            <section id="download">
+                <h3>
+                    <a href="{{ url_for('.download_file') }}">Download your Recording</a>
+                </h3>
+            </section>
+        </div>
+        {% endif %}
+    </section>
+
+    <!-- Find Mood Section -->
+    <section id="findMood">
+
+        <!-- Upload button -->
+        <div class="upload">
+            <h2>1 - Upload your .wav file</h2>
+            <form method="post" enctype="multipart/form-data">
+
+                <input type="file" name="file" />
+                <br>
+                <input class="button" type="submit" id="submitButton" value="See Results" />
+                <br>
+                <!-- <input type="submit" id="submitButton" value="See Results"/> -->
+            </form>
+
+        </div>
+
+        <!-- Record button -->
+        <div class="record">
+            <h2>2 - Record 10 sec clip</h2>
+            <form method="post" enctype="multipart/form-data">
+                <br>
+                <progress value="0" max="10" id="progressBar"></progress>
+                <br>
+                <input class="button" type="submit" id="submitButton" value="Record 10 sec clip"
+                    onclick="showPopUp()" />
+            </form>
+
+        </div>
+    </section>
+
+
+    <!-- footer -->
+    <hr>
+    <footer id="footer">
+        <i class="footer-img fab fa-facebook fa-3x"></i>
+        <i class="footer-img fab fa-twitter fa-3x"></i>
+        <i class="footer-img fab fa-instagram fa-3x"></i>
+        <i class="footer-img fas fa-envelope fa-3x"></i>
+        <p class="copyright">© Copyright 2022. IIITDMJ (Develop and managed by <a
+                href="https://www.linkedin.com/in/abhinav520/" class="linkedin">Abhinav</a> ,<a
+                href="https://www.linkedin.com/in/aabhas-tejasvi-173523202" class="linkedin"> Aabhas</a>,<a
+                href="https://www.linkedin.com/in/#" class="linkedin"> Abhiraj</a>,<a
+                href="https://www.linkedin.com/in/anunaya-a-a01b56202/" class="linkedin"> Anunaya</a> and <a
+                href="https://www.linkedin.com/in/gautam-singhal-927235206/" class="linkedin"> Gautam</a>)</p>
+
+    </footer>
+
+
+    <!-- Jquery needed -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="js/scripts.js"></script>
+
+    <!-- Function used to shrink nav bar removing paddings and adding black background -->
+    <script>
+        showPopUp=()=>{
+            var timeleft = 10;
+            var downloadTimer = setInterval(function () {
+                if (timeleft <= 0) {
+                    clearInterval(downloadTimer);
+                }
+                document.getElementById("progressBar").value = 10 - timeleft;
+                timeleft -= 1;
+            }, 1000);
+        }
+        $(window).scroll(function () {
+            if ($(document).scrollTop() > 50) {
+                $('.nav').addClass('affix');
+                console.log("OK");
+            } else {
+                $('.nav').removeClass('affix');
+            }
+        });
+        $('.navTrigger').click(function () {
+            $(this).toggleClass('active');
+            console.log("Clicked menu");
+            $("#mainListDiv").toggleClass("show_list");
+            $("#mainListDiv").fadeIn();
+        });
+    </script>
+</body>
+
+</html>
